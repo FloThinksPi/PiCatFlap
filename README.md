@@ -1,7 +1,7 @@
 PiCatFlap(!!WARNING CHAOS CODE!!)
 ===
 
-My first node.js application is made with Express, Socket.io , Python 
+My first node.js application is made with Express, Socket.io ,Python 
 and mjpg-streamer(https://github.com/codewithpassion/mjpg-streamer/tree/master/mjpg-streamer-experimental)
 It use Webflow and the javascript librairie Jquery_UI and Jquery.
 
