@@ -17,4 +17,4 @@ It use Webflow and the javascript librairie Jquery_UI and Jquery.
  
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
 " target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
-alt="No Video" width="480" height="360" border="10" /></a>
+alt="Coming Soon" width="480" height="360" border="10" /></a>
