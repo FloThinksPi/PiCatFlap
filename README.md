@@ -5,6 +5,8 @@ My first node.js application is made with Express, Socket.io , Python
 and mjpg-streamer(https://github.com/codewithpassion/mjpg-streamer/tree/master/mjpg-streamer-experimental)
 It use Webflow and the javascript librairie Jquery_UI and Jquery.
 
+!IT IS NOT USABLE RIGHT NOW WITHOUT MODIFICATIONS BECAUSE OF ABSOLUTE PATHS ETC.!
+
 ## What can it do(via Webfrontend)?
 	- Responsive Design
 	- Open your CatFlap via Servo 
