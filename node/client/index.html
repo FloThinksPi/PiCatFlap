@@ -1,0 +1,192 @@
+<!DOCTYPE html><!-- This site was created in Webflow. http://www.webflow.com--><!-- Last Published: Tue Jun 24 2014 07:55:32 GMT+0000 (UTC) -->
+<html data-wf-site="52cbdea66467996b19000225">
+<head>
+<meta charset="utf-8">
+<title>PiCatFlap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Webflow">
+<link rel="stylesheet" type="text/css" href="css/normalize.css">
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+<script>WebFont.load({
+  google: {
+    families: ["Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic"]
+  }
+});</script>
+
+<script type="text/javascript" src="js/modernizr.js"></script>
+
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon2.ico">
+<link rel="apple-touch-icon" href="img/touchicon.png">
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="js/webflow.js"></script>
+<!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+
+<!--Costom Here -->
+<link href="css/blitzer/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+<script src="js/jquery-ui-1.10.4.custom.js"></script>
+<script src="js/jquery.ui.touch-punch.js"></script>
+
+<script src="js/socket.io-1.0.4.js"></script>
+
+<script>
+
+
+	$(function() {	
+
+		
+			$( "button" )
+			.button()
+			.click(function( event ) {
+			socket.emit('buttonchanged', 1);
+			});
+
+			$( "button" ).button({ label: "Open CatFlap" });
+
+		var logger = document.getElementById('logger');
+		var LastSent=0;
+		var Resettimer;
+		
+			$( "#slider" ).slider({
+				range: "min",
+				value: 1,
+				min: 1,
+				max: 999,
+	      		slide: function( event, ui ) {
+
+
+	      			clearTimeout(Resettimer);
+	      			if(blocksend==0){
+	      				Resettimer=setTimeout(function(){if(LastSent!=ui.value){socket.emit('sliderchanged', ui.value); $("#amount" ).val( "Lichtstärke:" + Math.round(ui.value/10) +"%");}},100);
+	      			}
+
+
+					if (slowdown==0&&blocksend==0) {
+						$("#amount" ).val( "Lichtstärke: " + Math.round(ui.value/10) +"%");
+						socket.emit('sliderchanged', ui.value);
+						ui.value=LastSent;
+						startTimer();
+
+					}
+
+	      		}
+	   		});
+
+   var slowdown=0;
+   var blocksend=0;
+
+	function startTimer () {
+		slowdown=1;
+		setTimeout(stopTimer,50);
+	}
+
+	function stopTimer () {
+		slowdown=0;
+	}
+
+	var socket = io.connect('http://10.110.109.30:80');
+
+	socket.on('connect', function () {
+		
+			logger.style.color = '#22d332';
+			logger.innerText = 'Socket Server Connected';
+			
+
+			socket.on('updateslider', function(data) {	
+				updateslider(data);
+			});
+
+			socket.on('statusupdate', function(data) {	
+				logger.innerText = data;
+			});
+
+			socket.on('connected', function(data) {
+				updateslider(data.slider);
+				updatebutton(data.button);
+			});
+
+			socket.on('updatebutton', function(data) {
+				updatebutton(data);
+			});
+
+			socket.on('disconnect',function() {
+				logger.style.color = '#d31713';
+				logger.innerText = 'Socket Server Disconnected';
+			});
+	});
+
+	function updatebutton(data){
+		if(data==1){
+			$( "button" ).button('disable');
+			$( "button" ).button({ label: "Opening ..." });
+		}else{
+			$( "button" ).button('enable');
+			$( "button" ).button({ label: "Open CatFlap" });
+		}
+	}
+
+	var time1;
+
+	function updateslider(data) {
+
+		clearTimeout(time1);
+
+		$("#slider").slider('value', data);
+		$( "#amount" ).val( "Lichtstärke: " + Math.round(data/10) +"%");
+		blocksend=1;
+		$('#slider').slider('disable');
+
+		time1=setTimeout(function(){$('#slider').slider('enable'); blocksend=0;},1000);
+	}
+
+
+
+});
+
+</script>
+
+</head>
+
+
+<body>
+	<div class="w-nav navbar" data-collapse="medium" data-animation="default" data-duration="400" data-contain="1">
+		<div class="w-container">
+			<a class="w-nav-brand brand" href="#">
+				<img src="img/touchicon.png" width="50" height="50" alt="img/touchicon.png">
+			</a>
+			<nav class="w-nav-menu" role="navigation">
+				<a class="w-nav-link navtext" href="/">CatFlap</a>
+				<a class="w-nav-link navtext" href="/settings.html">Settings</a>
+			</nav>
+			<div class="w-nav-button">
+				<img src="img/menu.png" width="20" >
+			</div>
+		</div>
+	</div>
+	<div class="stream"></div>
+	<div class="footer">
+		<div class="w-row">
+			<div class="w-col w-col-2 w-col-small-2">
+				<div class="footer-text">By Florian Braun</div>
+			</div>
+			<div class="w-col w-col-8 w-col-small-8">
+				<div id="logger" class="footerstatus" style="color:#d31713;">Socket Server Disconnected</div>
+			</div>
+			<div class="w-col w-col-2 w-col-small-2 w-clearfix">
+				<div class="footer-text right">Fork on Github</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="control">
+		<input class="blendout" type="text" id="amount" disabled="disabled" style="border:0; margin:10px auto 10px auto; width:100%; text-align: center; textcolor:#d10000; background-color:#f5f5f5; font-weight:bold;">
+		<div class="blendout" id="slider"></div>
+		<br>
+		<br>
+		<button class="ui-button-text" id="CFButton" >
+	</div>
+
+
+</body>
+</html>
