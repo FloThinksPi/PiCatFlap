@@ -54,7 +54,7 @@ while True:
 		while GPIO.input(PIR_PIN)==1:
 			Time=Time+1
 			time.sleep(1)
-			if Time>=3:
+			if Time>=13:
 				notifyme()
 	else:
 		time.sleep(0.1)

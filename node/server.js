@@ -42,12 +42,13 @@ var io = require('socket.io').listen(server);
   //END SERVO
 
   //START DIMMER-------------------------------
+
   var options = {
     mode: 'text',
     scriptPath: '/home/pi/PiCatFlap/node/PiCode'
   };
   var CurrentDimmInstance = new PythonShell('dimm.py',options);
-  CurrentDimmInstance.send('0');
+  var timeout=setTimeout(function(){CurrentDimmInstance.send(0);}, 1);
 
   CurrentDimmInstance.on('message', function (message) {
     console.log("DimmerS: "+ message);
@@ -72,6 +73,8 @@ var io = require('socket.io').listen(server);
   //END NOTIFICATION
 
   function SentToDimmer(data){
+    clearTimeout(timeout);
+    timeout=setTimeout(function(){CurrentDimmInstance.send(0); io.sockets.emit('updateslider', "0");}, 300000);
     if(Math.round(sliderposition/10)!=Math.round(data/10)){
       CurrentDimmInstance.send(data);
     }
