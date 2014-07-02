@@ -1,5 +1,7 @@
-PiCatFlap(!!WARNING CHAOS CODE!!)
+PiCatFlap
 ===
+
+Warning: Quick and dirty code!
 
 My first node.js application is made with Express, Socket.io , Python 
 and mjpg-streamer(https://github.com/codewithpassion/mjpg-streamer/tree/master/mjpg-streamer-experimental)
