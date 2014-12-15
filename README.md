@@ -1,5 +1,5 @@
 PiCatFlap
-===
+====
 
 Warning: Quick and dirty code!
 
