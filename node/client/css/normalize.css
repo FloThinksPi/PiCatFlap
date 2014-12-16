@@ -88,6 +88,12 @@ p {
   text-align: center;
 }
 
+.SettingsContainer{
+	background-color: red;
+	padding: 40px;
+	margin: 40px;
+}
+
 
 .button {
   display: inline-block;

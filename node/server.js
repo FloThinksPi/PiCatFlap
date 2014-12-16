@@ -11,7 +11,6 @@ var server = app.listen(80, function() {
 
 var io = require('socket.io').listen(server); 
 
-
   //Python 
   var PythonShell = require('python-shell');
   var servo
@@ -60,7 +59,8 @@ var io = require('socket.io').listen(server);
 
   var options = {
     mode: 'text',
-    scriptPath: '/home/pi/PiCatFlap/node/PiCode'
+    scriptPath: '/home/pi/PiCatFlap/node/PiCode',
+    autoopen: AutoOpenState
   };
   var Notify = new PythonShell('notify.py',options);
 
@@ -84,12 +84,14 @@ var io = require('socket.io').listen(server);
   var sliderposition=0;
   var buttonposition=0;
   var TimeOpen=60;
+  var AutoOpenState=0;
 
 io.sockets.on('connection', function (socket){
 
   var startdata={
     slider:sliderposition,
-    button:buttonposition
+    button:buttonposition,
+    autoopen:AutoOpenState
   }
 	socket.emit('connected',startdata);
 
@@ -98,6 +100,23 @@ io.sockets.on('connection', function (socket){
     sliderposition=data;
   	console.log("Dimm At: "+ data/10 + "%");
   	socket.broadcast.emit('updateslider', data);
+  });
+
+
+  socket.on('autoopenchanged', function (data){
+    AutoOpenState=data;
+
+    Notify.close();
+
+    options = {
+      mode: 'text',
+      scriptPath: '/home/pi/PiCatFlap/node/PiCode',
+      autoopen: AutoOpenState
+    };
+    Notify = new PythonShell('notify.py',options);
+
+    console.log("AutoOpen: "+AutoOpenState);
+    socket.broadcast.emit('updateautoopen', data);
   });
   
 
