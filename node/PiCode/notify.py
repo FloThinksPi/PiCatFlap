@@ -5,8 +5,8 @@ import httplib, urllib
 def notifyme():
 	
 	# Application specific variables
-	application_token = "aMFAb84mCYHEVYNJDNATF8GceBLSQS"
-	user_token = "uAiGD8V8fequ2KeDef946nQY9K474w"
+	application_token = "YourApplicationToken"
+	user_token = "YourUserToken"
 
 	# Message specific variables
 	title = "Let Me in !!"
