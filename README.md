@@ -16,5 +16,5 @@ It use Webflow and Jquery_UI + Jquery.
 	- Send Notifcations to your Phone(based a PIR Sensor and Door Sensor)
 
 ## Video Demo
- 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Y--9Xm1yuUI" frameborder="0" allowfullscreen></iframe>
+
+[![PiCatFlap UI](https://img.youtube.com/vi/Y--9Xm1yuUI/0.jpg)](https://www.youtube.com/embed/Y--9Xm1yuUI)
